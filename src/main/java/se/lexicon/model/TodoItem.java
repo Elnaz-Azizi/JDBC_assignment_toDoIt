@@ -1,5 +1,7 @@
 package se.lexicon.model;
 
+import java.time.LocalDate;
+
 public class TodoItem {
     private int id;
     private String title;
@@ -7,16 +9,15 @@ public class TodoItem {
     private LocalDate deadLine;
     private boolean done;
     private Person assignee;
-    private int assigneeId;
 
-    public TodoItem(int id, String title, String taskDescription, LocalDate deadLine, boolean done, Person assignee, int assigneeId) {
+    public TodoItem(int id, String title, String taskDescription, LocalDate deadLine, boolean done, Person assignee) {
         this.id = id;
         this.title = title;
         this.taskDescription = taskDescription;
         this.deadLine = deadLine;
         this.done = done;
         this.assignee = assignee;
-        this.assigneeId = assigneeId;
+
     }
 
     public int getId() {
@@ -54,7 +55,7 @@ public class TodoItem {
         if (deadLine == null) {
             throw new IllegalArgumentException("Deadline cannot be null or empty");
         }
-        this.deadLine = LocalDate.parse(deadLine);
+        this.deadLine = deadLine;
     }
 
     public boolean isDone() {
@@ -73,18 +74,22 @@ public class TodoItem {
         this.assignee = assignee;
     }
 
-    public int getAssigneeId() {
-        return assigneeId;
-    }
-
-    public void setAssigneeId(int assigneeId) {
-        this.assigneeId = assigneeId;
-    }
-
     public boolean isOverdue() {
         if (this.deadLine.isAfter(LocalDate.now())) {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public String toString() {
+        return "TodoItem{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", taskDescription='" + taskDescription + '\'' +
+                ", deadLine=" + deadLine +
+                ", done=" + done +
+                ", assignee=" + assignee +
+                '}';
     }
 }

@@ -11,9 +11,9 @@ public class Person {
     }
 
     public Person(int id, String firstName, String lastName) {
+        this(firstName, lastName);
         this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
+
     }
 
     public int getId() {

@@ -8,7 +8,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 public class PeopleDaoImpl implements PeopleDao {
 
@@ -44,8 +46,26 @@ public class PeopleDaoImpl implements PeopleDao {
 
     @Override
     public Collection<Person> findAll() {
+        List<Person> people = new ArrayList<>();
+        String query = "Select * from person";
+        try (
+                Connection connection = MySQLDBConnection.getConnection();
+                PreparedStatement preparedStatement= connection.prepareStatement(query);
+                ResultSet resultSet=preparedStatement.executeQuery();
+        ) {
+            while (resultSet.next()){
+                Person person=new Person();
+                person.setId(resultSet.getInt("id"));
+                person.setFirstName(resultSet.getString("first_name"));
+                person.setLastName(resultSet.getString("last_name"));
+                people.add(person);
+            }
 
-        return null;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return people;
     }
 
     @Override

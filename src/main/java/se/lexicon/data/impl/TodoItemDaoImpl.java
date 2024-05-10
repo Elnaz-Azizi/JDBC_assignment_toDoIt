@@ -1,50 +1,52 @@
 package se.lexicon.data.impl;
 
-import com.sun.tools.javac.comp.Todo;
 import se.lexicon.data.TodoItemDao;
 import se.lexicon.model.Person;
+import se.lexicon.model.TodoItem;
 
 import java.util.Collection;
 import java.util.List;
 
 public class TodoItemDaoImpl implements TodoItemDao {
+    
+
     @Override
-    public Todo create(Todo todo) {
+    public TodoItem create(TodoItem todo) {
         return null;
     }
 
     @Override
-    public Collection<Todo> findAll() {
-        return List.of();
-    }
-
-    @Override
-    public Todo findById(int id) {
+    public Collection<TodoItem> findAll() {
         return null;
     }
 
     @Override
-    public Collection<Todo> findByDoneStatus(boolean status) {
-        return List.of();
+    public TodoItem findById(int id) {
+        return null;
     }
 
     @Override
-    public Collection<Todo> findByAssignee(int personId) {
-        return List.of();
+    public Collection<TodoItem> findByDoneStatus(boolean status) {
+        return null;
     }
 
     @Override
-    public Collection<Todo> findByAssignee(Person person) {
-        return List.of();
+    public Collection<TodoItem> findByAssignee(int personId) {
+        return null;
     }
 
     @Override
-    public Collection<Todo> findByAssignedTodoItems() {
-        return List.of();
+    public Collection<TodoItem> findByAssignee(Person person) {
+        return null;
     }
 
     @Override
-    public Todo update(Todo todo) {
+    public Collection<TodoItem> findByAssignedTodoItems() {
+        return null;
+    }
+
+    @Override
+    public TodoItem update(TodoItem todo) {
         return null;
     }
 

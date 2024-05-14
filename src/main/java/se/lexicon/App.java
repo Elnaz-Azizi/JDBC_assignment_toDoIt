@@ -17,6 +17,10 @@ public class App {
        //Collection<Person> people = peopleDao.findByName("Elnaz Azizi");
        // System.out.println(people);
 
+        Person person=new Person(1,"Nickan", "Javan");
+        Person person1= peopleDao.update(person);
+        System.out.println(person1);
+
 
 
     }

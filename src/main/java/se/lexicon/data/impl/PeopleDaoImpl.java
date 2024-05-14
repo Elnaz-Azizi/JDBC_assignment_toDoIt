@@ -131,11 +131,40 @@ public class PeopleDaoImpl implements PeopleDao {
 
     @Override
     public Person update(Person person) {
+        String query = "UPDATE person SET first_name=?, last_name=? WHERE person_id=?";
+        try (
+                Connection connection = MySQLDBConnection.getConnection();
+                PreparedStatement preparedStatement = connection.prepareStatement(query);
+        ) {
+            preparedStatement.setString(1, person.getFirstName());
+            preparedStatement.setString(2, person.getLastName());
+            preparedStatement.setInt(3, person.getId());
+
+            int rowsAffected = preparedStatement.executeUpdate();
+            if (rowsAffected > 0) {
+                return person;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 
+
     @Override
     public boolean deleteById(int id) {
+        String query = "DELETE FROM person WHERE person_id=?";
+        try (
+                Connection connection = MySQLDBConnection.getConnection();
+                PreparedStatement preparedStatement = connection.prepareStatement(query);
+        ) {
+            preparedStatement.setInt(1, id);
+            int rowsAffected = preparedStatement.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return false;
     }
+
 }

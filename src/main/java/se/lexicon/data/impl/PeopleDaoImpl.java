@@ -72,7 +72,7 @@ public class PeopleDaoImpl implements PeopleDao {
     public Person findById(int id) {
         //Query
         String query = "Select * from person where person_id =?";
-        Person person= new Person();
+        Person person = new Person();
 
         // connection
         try (
@@ -82,11 +82,11 @@ public class PeopleDaoImpl implements PeopleDao {
 
         ) {
             //set param
-            preparedStatement.setInt(1,id);
+            preparedStatement.setInt(1, id);
             //execute query
-            ResultSet resultSet= preparedStatement.executeQuery();
+            ResultSet resultSet = preparedStatement.executeQuery();
             // get from result set and set to person if exist
-            if (resultSet.next()){
+            if (resultSet.next()) {
                 person.setId(resultSet.getInt("person_id"));
                 person.setFirstName(resultSet.getString("first_name"));
                 person.setLastName(resultSet.getNString("last_name"));
@@ -100,8 +100,34 @@ public class PeopleDaoImpl implements PeopleDao {
 
     @Override
     public Collection<Person> findByName(String name) {
-        return null;
+        List<Person> people = new ArrayList<>();
+        String query = "Select * from person where CONCAT(first_name, ' ' , last_name) = ?";
+
+        try (
+                Connection connection = MySQLDBConnection.getConnection();
+                PreparedStatement preparedStatement = connection.prepareStatement(query);
+        ) {
+            preparedStatement.setString(1, name);
+            ResultSet resultSet= preparedStatement.executeQuery();
+            while (resultSet.next()){
+                Person person = new Person();
+                person.setId(resultSet.getInt("person_id"));
+                person.setFirstName(resultSet.getString("first_name"));
+                person.setLastName(resultSet.getString("last_name"));
+                people.add(person);
+
+            }
+
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
+        return people;
+
     }
+
 
     @Override
     public Person update(Person person) {

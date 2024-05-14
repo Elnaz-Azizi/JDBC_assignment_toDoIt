@@ -50,11 +50,11 @@ public class PeopleDaoImpl implements PeopleDao {
         String query = "Select * from person";
         try (
                 Connection connection = MySQLDBConnection.getConnection();
-                PreparedStatement preparedStatement= connection.prepareStatement(query);
-                ResultSet resultSet=preparedStatement.executeQuery();
+                PreparedStatement preparedStatement = connection.prepareStatement(query);
+                ResultSet resultSet = preparedStatement.executeQuery();
         ) {
-            while (resultSet.next()){
-                Person person=new Person();
+            while (resultSet.next()) {
+                Person person = new Person();
                 person.setId(resultSet.getInt("id"));
                 person.setFirstName(resultSet.getString("first_name"));
                 person.setLastName(resultSet.getString("last_name"));
@@ -70,7 +70,32 @@ public class PeopleDaoImpl implements PeopleDao {
 
     @Override
     public Person findById(int id) {
-        return null;
+        //Query
+        String query = "Select * from person where person_id =?";
+        Person person= new Person();
+
+        // connection
+        try (
+                Connection connection = MySQLDBConnection.getConnection();
+                //preparedStatement
+                PreparedStatement preparedStatement = connection.prepareStatement(query);
+
+        ) {
+            //set param
+            preparedStatement.setInt(1,id);
+            //execute query
+            ResultSet resultSet= preparedStatement.executeQuery();
+            // get from result set and set to person if exist
+            if (resultSet.next()){
+                person.setId(resultSet.getInt("person_id"));
+                person.setFirstName(resultSet.getString("first_name"));
+                person.setLastName(resultSet.getNString("last_name"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return person;
     }
 
     @Override

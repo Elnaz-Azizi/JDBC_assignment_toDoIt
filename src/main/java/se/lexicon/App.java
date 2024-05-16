@@ -29,11 +29,34 @@ public class App {
         //TodoItem todoItem = new TodoItem("Complete TodoAssignment", "Finish coding task", LocalDate.now(), false, foundPersonById);
         //TodoItem createdTodoItem = todoItemDao.create(todoItem);
         //System.out.println(createdTodoItem);
-        Collection<TodoItem> allTodoItems = todoItemDao.findAll();
-        for (TodoItem todoItem : allTodoItems) {
-            System.out.println(todoItem);
+        //Collection<TodoItem> allTodoItems = todoItemDao.findAll();
+        // for (TodoItem todoItem : allTodoItems) {
+        //System.out.println(todoItem);
+        // }
+
+       /* int todoIdToFind = 5;
+        TodoItem foundTodoItem = todoItemDao.findById(todoIdToFind);
+
+        if (foundTodoItem != null) {
+            System.out.println("Found TodoItem:");
+            System.out.println(foundTodoItem);
+        } else {
+            System.out.println("TodoItem not found.");
         }
 
+    */
 
+        boolean doneStatusToFind = true; // Change this to the desired done status
+        Collection<TodoItem> todoItemsWithStatus = todoItemDao.findByDoneStatus(doneStatusToFind);
+
+        // Print the found todo items
+        if (!todoItemsWithStatus.isEmpty()) {
+            System.out.println("TodoItems with done status " + doneStatusToFind + ":");
+            for (TodoItem todoItem : todoItemsWithStatus) {
+                System.out.println(todoItem);
+            }
+        } else {
+            System.out.println("No todo items found with done status " + doneStatusToFind);
+        }
     }
 }

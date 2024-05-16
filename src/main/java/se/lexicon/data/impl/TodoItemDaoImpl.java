@@ -101,12 +101,58 @@ public class TodoItemDaoImpl implements TodoItemDao {
 
     @Override
     public TodoItem findById(int id) {
-        return null;
+        TodoItem todoItem = null;
+        String query = "SELECT * FROM todo_item WHERE todo_id = ?";
+        try (
+                Connection connection = MySQLDBConnection.getConnection();
+                PreparedStatement preparedStatement = connection.prepareStatement(query);
+        ) {
+            preparedStatement.setInt(1, id);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    todoItem.setId(resultSet.getInt("Todo_id"));
+                    todoItem.setTitle(resultSet.getString("Title"));
+                    todoItem.setTaskDescription(resultSet.getString("Description"));
+                    todoItem.setDeadLine(resultSet.getDate("Deadline").toLocalDate());
+                    todoItem.setDone(resultSet.getBoolean("Done"));
+                    int assigneeId = resultSet.getInt("assignee_id");
+                    Person assignee = findAssigneeById(assigneeId);
+                    todoItem.setAssignee(assignee);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return todoItem;
     }
 
     @Override
     public Collection<TodoItem> findByDoneStatus(boolean status) {
-        return null;
+        List<TodoItem> todoItems = new ArrayList<>();
+        String query = "SELECT * FROM todo_item WHERE done = ?";
+        try (
+                Connection connection = MySQLDBConnection.getConnection();
+                PreparedStatement preparedStatement = connection.prepareStatement(query);
+        ) {
+            preparedStatement.setBoolean(1, status);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    TodoItem todoItem = new TodoItem();
+                    todoItem.setId(resultSet.getInt("Todo_id"));
+                    todoItem.setTitle(resultSet.getString("Title"));
+                    todoItem.setTaskDescription(resultSet.getString("Description"));
+                    todoItem.setDeadLine(resultSet.getDate("Deadline").toLocalDate());
+                    todoItem.setDone(resultSet.getBoolean("Done"));
+                    int assigneeId = resultSet.getInt("assignee_id");
+                    Person assignee = findAssigneeById(assigneeId);
+                    todoItem.setAssignee(assignee);
+                    todoItems.add(todoItem);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return todoItems;
     }
 
     @Override

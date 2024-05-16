@@ -108,8 +108,8 @@ public class PeopleDaoImpl implements PeopleDao {
                 PreparedStatement preparedStatement = connection.prepareStatement(query);
         ) {
             preparedStatement.setString(1, name);
-            ResultSet resultSet= preparedStatement.executeQuery();
-            while (resultSet.next()){
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
                 Person person = new Person();
                 person.setId(resultSet.getInt("person_id"));
                 person.setFirstName(resultSet.getString("first_name"));
@@ -118,8 +118,7 @@ public class PeopleDaoImpl implements PeopleDao {
 
             }
 
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
 

@@ -10,6 +10,24 @@ public class TodoItem {
     private boolean done;
     private Person assignee;
 
+    public TodoItem() {
+    }
+
+    public TodoItem(String title, String taskDescription, LocalDate deadLine, boolean done) {
+        this.title = title;
+        this.taskDescription = taskDescription;
+        this.deadLine = deadLine;
+        this.done = done;
+    }
+
+    public TodoItem(String title, String taskDescription, LocalDate deadLine, boolean done, Person assignee) {
+        this.title = title;
+        this.taskDescription = taskDescription;
+        this.deadLine = deadLine;
+        this.done = done;
+        this.assignee = assignee;
+    }
+
     public TodoItem(int id, String title, String taskDescription, LocalDate deadLine, boolean done, Person assignee) {
         this.id = id;
         this.title = title;
